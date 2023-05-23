@@ -37,12 +37,16 @@ class Empresa {
   #idRegistro;
   #nombre;
   #rut;
+  #rubro;
+  #tamano;
   #importaciones = [];
 
-  constructor(idRegistro, nombre, rut) {
+  constructor(idRegistro, nombre, rut, rubro, tamano) {
     this.#idRegistro = idRegistro;
     this.#nombre = nombre;
     this.#rut = rut;
+    this.#rubro = rubro;
+    this.#tamano = tamano;
   }
 
   //getters
@@ -57,6 +61,14 @@ class Empresa {
 
   get rut() {
     return this.#rut;
+  }
+
+  get rubro() {
+    return this.#rubro;
+  }
+
+  get tamano() {
+    return this.#tamano;
   }
 
   get importaciones() {
@@ -83,52 +95,94 @@ class Empresa {
 
 class Importacion {
   #idImportacion;
-  #producto;
-  #cantidadDeProducto;
-  #precio;
+  #productos;
 
-  constructor(idImportacion, producto, cantidadDeProducto, precio) {
+  constructor(idImportacion, productos = []) {
     this.#idImportacion = idImportacion;
-    this.#producto = producto;
-    this.#cantidadDeProducto = cantidadDeProducto;
-    this.#precio = precio;
+    this.#productos = productos;
   }
   // getters
   get idImportacion() {
     return this.#idImportacion;
   }
 
-  get producto() {
-    return this.#producto;
+  get productos() {
+    return this.#productos;
   }
 
-  get cantidadDeProducto() {
-    return this.#cantidadDeProducto;
+  // methods
+  agregarProducto(producto) {
+    this.productos.push(producto);
+  }
+
+  obtenerValor() {
+    return this.#productos.reduce(
+      (acc, producto) => acc + producto.obtenerValor(),
+      0
+    );
+  }
+}
+
+class Producto {
+  #nombre;
+  #cantidad;
+  #precio;
+
+  constructor(nombre, cantidad, precio) {
+    this.#nombre = nombre;
+    this.#cantidad = cantidad;
+    this.#precio = precio;
+  }
+
+  //getters
+  get nombre() {
+    return this.#nombre;
+  }
+
+  get cantidad() {
+    return this.#cantidad;
   }
 
   get precio() {
     return this.#precio;
   }
 
-  // methods
+  //methods
   obtenerValor() {
-    return this.#cantidadDeProducto * this.#precio;
+    return this.#cantidad * this.#precio;
   }
 }
+
 const aduana = new Aduana();
-const empresa1 = new Empresa(12345678, 'AgroHolman Limitada', '75.123.123-0');
-const empresa2 = new Empresa(12341234, 'Calerita Dynamics Inc', '76.000.000-0');
+const empresa1 = new Empresa(
+  12345678,
+  'AgroHolman Limitada',
+  '75.123.123-0',
+  'agrícola',
+  'pequeño'
+);
+const empresa2 = new Empresa(
+  12341234,
+  'Calerita Dynamics Inc',
+  '76.000.000-0',
+  'tecnología',
+  'mediano'
+);
 
 aduana.registrarEmpresa(empresa1);
 aduana.registrarEmpresa(empresa2);
 
-const importacion1 = new Importacion(1234, 'Maceta VCG 10', 50000, 40);
-const importacion2 = new Importacion(5678, 'Maceta VCG 15', 20000, 70);
-const importacion3 = new Importacion(2345, 'Arduino Uno', 1000, 10000);
+const producto1 = new Producto('Maceta VCG 10', 50000, 40);
+const producto2 = new Producto('Maceta VCG 15', 20000, 70);
+const producto3 = new Producto('Arduino Uno', 1000, 10000);
+
+const importacion1 = new Importacion(1234, [producto1, producto2]);
+
+const importacion2 = new Importacion(2345);
+importacion2.agregarProducto(producto3);
 
 empresa1.agregarImportacion(importacion1);
-empresa1.agregarImportacion(importacion2);
-empresa2.agregarImportacion(importacion3);
+empresa2.agregarImportacion(importacion2);
 
 aduana.empresas.forEach((empresa) => {
   console.log(
