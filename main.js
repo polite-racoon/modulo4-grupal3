@@ -1,45 +1,75 @@
-// const formularioEmpresa = document.getElementById('formularioEmpresa');
-// // Inputs Formulario Registro de Empresa
-// //  nombre empresa (string) - rut (string) - rubro (string) - tamaño (string)
-// const nombreEmpesa = document.getElementById('nombreEmpresa');
-// const rut = document.getElementById('rut');
-// const rubro = document.getElementById('rubro');
-// const tamano = document.getElementById('tamano');
+const formularioEmpresa = document.getElementById('formularioEmpresa');
+// Inputs Formulario Registro de Empresa
+//  nombre empresa (string) - rut (string) - rubro (string) - tamaño (string)
+const nombreEmpresa = document.getElementById('nombreEmpresa');
+const rut = document.getElementById('rut');
+const rubro = document.getElementById('rubro');
+const tamano = document.getElementById('tamano');
 
-// const formularioImportaciones = document.getElementById(
-//   'formularioImportaciones'
-// );
-// // Inputs Formulario Registro de importaciones
-// // div vacio
-// const productos = document.getElementById('productos');
+const formularioImportacion = document.getElementById('formularioImportacion');
+// Inputs Formulario Registro de importaciones
+// div vacio
+const productos = document.getElementById('productos');
 
-// const formularioProductos = document.getElementById('formularioProducto');
-// // Inputs Formulario Registro de productos
-// // nombre (string) - cantidad (numero) - precio (numero)
-// const nombre = document.getElementById('nombre');
-// const cantidad = document.getElementById('cantidad');
-// const precio = document.getElementById('precio');
+const formularioProducto = document.getElementById('formularioProducto');
+// Inputs Formulario Registro de productos
+// nombre (string) - cantidad (numero) - precio (numero)
+const nombreProducto = document.getElementById('nombreProducto');
+const cantidadProducto = document.getElementById('cantidadProducto');
+const precioProducto = document.getElementById('precioProducto');
 
-// //listeners
-// formularioEmpresa.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const nuevaEmpresa = new Empresa(
-//     nombreEmpresa.value,
-//     rut.value,
-//     rubro.value,
-//     tamano.value
-//   );
-// });
+// data
+const listaDeProductos = [];
+const listaDeEmpresas = [];
 
-// formularioImportaciones.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const importacion = new Importacion();
-// });
+//listeners
+formularioEmpresa.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nuevaEmpresa = new Empresa(
+    nombreEmpresa.value,
+    rut.value,
+    rubro.value,
+    tamano.value
+  );
+  // la empresa que crees la debes agregar a listaDeEmpresa y despues mostarla en la pagina
+  // a cada empresa que muestres debes anidarle un div vacio con un id con el id de la empresa como valor para que despues le podamos insertar las importaciones
+});
 
-// formularioProductos.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const producto = new Producto(nombre.value, cantidad.value, precio.value);
-// });
+formularioImportacion.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const importacion = new Importacion();
+  // debes pasarle a Importacion los productos que podras elegir desde el formulario
+  // agrega algunos productos desde la pagina para que veas como se ven
+});
+
+formularioProducto.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const producto = new Producto(
+    nombreProducto.value,
+    cantidadProducto.value,
+    precioProducto.value
+  );
+  listaDeProductos.push(producto);
+
+  const { idProducto, nombre, precio, cantidad } = producto;
+
+  const checkboxDiv = document.createElement('div');
+  checkboxDiv.style = 'font-size: 0.6rem;';
+  checkboxDiv.innerHTML = `
+    <input id="${idProducto}" type="checkbox" value="${JSON.stringify(
+    producto
+  )}">
+    <label for="${idProducto}">${nombre}/ precio: $${precio}/ cantidad: ${cantidad}/ total: ${producto.obtenerValor()}</label>
+    <br></br>
+    `;
+
+  productos.appendChild(checkboxDiv);
+
+  // limpia formulario
+  nombreProducto.value = '';
+  cantidadProducto.value = '';
+  precioProducto.value = '';
+});
 
 // clases
 
@@ -169,6 +199,7 @@ class Importacion {
 }
 
 class Producto {
+  #idProducto = (() => Math.floor(Math.random() * 1000000000))();
   #nombre;
   #cantidad;
   #precio;
@@ -180,6 +211,10 @@ class Producto {
   }
 
   //getters
+  get idProducto() {
+    return this.#idProducto;
+  }
+
   get nombre() {
     return this.#nombre;
   }
