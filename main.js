@@ -1,40 +1,45 @@
-const formularioEmpresa = document.getElementById('formularioEmpresa');
-// Inputs Formulario Registro de Empresa
-//  nombre empresa (string) - rut (string) - rubro (string) - tamaño (string)
-const nombreEmpesa = document.getElementById('nombreEmpresa');
-const rut = document.getElementById('rut');
-const rubro = document.getElementById('rubro');
-const tamano = document.getElementById('tamano');
+// const formularioEmpresa = document.getElementById('formularioEmpresa');
+// // Inputs Formulario Registro de Empresa
+// //  nombre empresa (string) - rut (string) - rubro (string) - tamaño (string)
+// const nombreEmpesa = document.getElementById('nombreEmpresa');
+// const rut = document.getElementById('rut');
+// const rubro = document.getElementById('rubro');
+// const tamano = document.getElementById('tamano');
 
-const formularioImportaciones = document.getElementById(
-  'formularioImportaciones'
-);
-// Inputs Formulario Registro de importaciones
-// div vacio
-const productos = document.getElementById('productos');
+// const formularioImportaciones = document.getElementById(
+//   'formularioImportaciones'
+// );
+// // Inputs Formulario Registro de importaciones
+// // div vacio
+// const productos = document.getElementById('productos');
 
-const formularioProductos = document.getElementById('formularioProducto');
-// Inputs Formulario Registro de productos
-// nombre (string) - cantidad (numero) - precio (numero)
-const nombre = document.getElementById('nombre');
-const cantidad = document.getElementById('cantidad');
-const precio = document.getElementById('precio');
+// const formularioProductos = document.getElementById('formularioProducto');
+// // Inputs Formulario Registro de productos
+// // nombre (string) - cantidad (numero) - precio (numero)
+// const nombre = document.getElementById('nombre');
+// const cantidad = document.getElementById('cantidad');
+// const precio = document.getElementById('precio');
 
-//listeners
-formularioEmpresa.addEventListener('submit', (e) => {
-  e.preventDefault();
-  //const nuevaEmpresa = new Empresa(nombreEmpresa.value, rut.value, rubro.value, tamano.value)
-});
+// //listeners
+// formularioEmpresa.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const nuevaEmpresa = new Empresa(
+//     nombreEmpresa.value,
+//     rut.value,
+//     rubro.value,
+//     tamano.value
+//   );
+// });
 
-formularioImportaciones.addEventListener('submit', (e) => {
-  e.preventDefault();
-  // const importacion = new Importacion(nuevaProducto.nombre)importacion = new Importacion()
-});
+// formularioImportaciones.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const importacion = new Importacion();
+// });
 
-formularioProductos.addEventListener('submit', (e) => {
-  e.preventDefault();
-  //const nuevaProducto = new Producto('nombre.value, cantidad.value, precio.value);
-});
+// formularioProductos.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const producto = new Producto(nombre.value, cantidad.value, precio.value);
+// });
 
 // clases
 
@@ -135,11 +140,11 @@ class Empresa {
 class Importacion {
   #productos = [];
   #idImportacion = (() => Math.floor(Math.random() * 1000000000))();
-  /*
- constructor(productos = []) {
+
+  constructor(productos = []) {
     this.#productos = productos;
   }
-  */
+
   // getters
   get idImportacion() {
     return this.#idImportacion;
@@ -151,6 +156,7 @@ class Importacion {
 
   // methods
   agregarProducto(producto) {
+    console.log(this.#productos);
     this.#productos.push(producto);
   }
 
@@ -217,9 +223,9 @@ const producto1 = new Producto('Maceta VCG 10', 50000, 40);
 const producto2 = new Producto('Maceta VCG 15', 20000, 70);
 const producto3 = new Producto('Arduino Uno', 1000, 10000);
 
-const importacion1 = new Importacion(1234, [producto1, producto2]);
+const importacion1 = new Importacion([producto1, producto2]);
 
-const importacion2 = new Importacion(2345);
+const importacion2 = new Importacion();
 importacion2.agregarProducto(producto3);
 
 empresa1.agregarImportacion(importacion1);
