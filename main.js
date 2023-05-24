@@ -1,3 +1,43 @@
+const formularioEmpresa = document.getElementById('formularioEmpresa');
+// Inputs Formulario Registro de Empresa
+//  nombre empresa (string) - rut (string) - rubro (string) - tamaño (string)
+const nombreEmpesa = document.getElementById('nombreEmpresa');
+const rut = document.getElementById('rut');
+const rubro = document.getElementById('rubro');
+const tamano = document.getElementById('tamano');
+
+const formularioImportaciones = document.getElementById(
+  'formularioImportaciones'
+);
+// Inputs Formulario Registro de importaciones
+// div vacio
+const productos = document.getElementById('productos');
+
+const formularioProductos = document.getElementById('formularioProducto');
+// Inputs Formulario Registro de productos
+// nombre (string) - cantidad (numero) - precio (numero)
+const nombre = document.getElementById('nombre');
+const cantidad = document.getElementById('cantidad');
+const precio = document.getElementById('precio');
+
+//listeners
+formularioEmpresa.addEventListener('submit', (e) => {
+  e.preventDefault();
+  //const nuevaEmpresa = new Empresa(nombreEmpresa.value, rut.value, rubro.value, tamano.value)
+});
+
+formularioImportaciones.addEventListener('submit', (e) => {
+  e.preventDefault();
+  // const importacion = new Importacion(nuevaProducto.nombre)importacion = new Importacion()
+});
+
+formularioProductos.addEventListener('submit', (e) => {
+  e.preventDefault();
+  //const nuevaProducto = new Producto('nombre.value, cantidad.value, precio.value);
+});
+
+// clases
+
 class Aduana {
   #empresas = [];
 
@@ -34,15 +74,14 @@ class Aduana {
 }
 
 class Empresa {
-  #idRegistro;
+  #idRegistro = (() => Math.floor(Math.random() * 1000000000))();
   #nombre;
   #rut;
   #rubro;
   #tamano;
   #importaciones = [];
 
-  constructor(idRegistro, nombre, rut, rubro, tamano) {
-    this.#idRegistro = idRegistro;
+  constructor(nombre, rut, rubro, tamano) {
     this.#nombre = nombre;
     this.#rut = rut;
     this.#rubro = rubro;
@@ -94,13 +133,13 @@ class Empresa {
 }
 
 class Importacion {
-  #idImportacion;
-  #productos;
-
-  constructor(idImportacion, productos = []) {
-    this.#idImportacion = idImportacion;
+  #productos = [];
+  #idImportacion = (() => Math.floor(Math.random() * 1000000000))();
+  /*
+ constructor(productos = []) {
     this.#productos = productos;
   }
+  */
   // getters
   get idImportacion() {
     return this.#idImportacion;
@@ -112,7 +151,7 @@ class Importacion {
 
   // methods
   agregarProducto(producto) {
-    this.productos.push(producto);
+    this.#productos.push(producto);
   }
 
   obtenerValor() {
@@ -152,6 +191,8 @@ class Producto {
     return this.#cantidad * this.#precio;
   }
 }
+
+// funciones utilitarias
 
 const aduana = new Aduana();
 const empresa1 = new Empresa(
