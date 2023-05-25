@@ -62,6 +62,33 @@ formularioEmpresa.addEventListener('submit', (e) => {
   tamano.value = '';
 });
 
+formularioProducto.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const producto = new Producto(
+    nombreProducto.value,
+    cantidadProducto.value,
+    precioProducto.value
+  );
+  listaDeProductos.push(producto);
+
+  const { idProducto, nombre, precio, cantidad } = producto;
+
+  const checkboxDiv = document.createElement('div');
+  checkboxDiv.style = 'font-size: 0.6rem;';
+  checkboxDiv.innerHTML = `
+    <input class="productoCheckbox" id="${idProducto}" type="checkbox" value='${idProducto}'>
+    <label for="${idProducto}">${nombre}/ precio: $${precio}/ cantidad: ${cantidad}/ total: ${producto.obtenerValor()}</label>
+    <br></br>
+    `;
+
+  productosDiv.appendChild(checkboxDiv);
+
+  // limpia formulario
+  nombreProducto.value = '';
+  cantidadProducto.value = '';
+  precioProducto.value = '';
+});
+
 formularioImportacion.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -104,42 +131,30 @@ formularioImportacion.addEventListener('submit', (e) => {
 
   const cuadro = document.getElementById(empresa.idRegistro);
   const div = document.createElement('div');
-  div.addEventListener('click', function () {
-    alert(`valor: ${importacion.obtenerValor()}`);
-  });
   div.innerHTML = importacion.idImportacion;
+
+  let productos = '';
+  importacion.productos.forEach((producto) => {
+    productos += `${producto.nombre}/ cantidad: ${producto.cantidad}/ precio: ${
+      producto.precio
+    }/ valor: ${producto.obtenerValor()}\n`;
+  });
+
+  const button = document.createElement('button');
+  button.textContent = 'Ver';
+  button.className = 'btn btn-primary ml-1 p-1';
+  button.addEventListener('click', function () {
+    alert(
+      productos + `valor total de la importación: ${importacion.obtenerValor()}`
+    );
+  });
+  div.appendChild(button);
+
   cuadro.appendChild(div);
 
   // limpia formulario
   empresasSelectElement.value = '';
   checkboxes.forEach((checkbox) => (checkbox.checked = false));
-});
-
-formularioProducto.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const producto = new Producto(
-    nombreProducto.value,
-    cantidadProducto.value,
-    precioProducto.value
-  );
-  listaDeProductos.push(producto);
-
-  const { idProducto, nombre, precio, cantidad } = producto;
-
-  const checkboxDiv = document.createElement('div');
-  checkboxDiv.style = 'font-size: 0.6rem;';
-  checkboxDiv.innerHTML = `
-    <input class="productoCheckbox" id="${idProducto}" type="checkbox" value='${idProducto}'>
-    <label for="${idProducto}">${nombre}/ precio: $${precio}/ cantidad: ${cantidad}/ total: ${producto.obtenerValor()}</label>
-    <br></br>
-    `;
-
-  productosDiv.appendChild(checkboxDiv);
-
-  // limpia formulario
-  nombreProducto.value = '';
-  cantidadProducto.value = '';
-  precioProducto.value = '';
 });
 
 // clases
