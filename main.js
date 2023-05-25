@@ -321,5 +321,5 @@ class Producto {
 }
 
 alert(
-  'Registre empresas, luego regisre productos y finalmente registre importación.'
+  'Registre empresas, luego registre productos y finalmente registre importación.'
 );
