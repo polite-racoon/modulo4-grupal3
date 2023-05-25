@@ -9,7 +9,8 @@ const tamano = document.getElementById('tamano');
 const formularioImportacion = document.getElementById('formularioImportacion');
 // Inputs Formulario Registro de importaciones
 // div vacio
-const productos = document.getElementById('productos');
+const empresasSelectElement = document.getElementById('empresasSelectElement');
+const productosDiv = document.getElementById('productosDiv');
 
 const formularioProducto = document.getElementById('formularioProducto');
 // Inputs Formulario Registro de productos
@@ -31,8 +32,17 @@ formularioEmpresa.addEventListener('submit', (e) => {
     rubro.value,
     tamano.value
   );
-  // la empresa que crees la debes agregar a listaDeEmpresa y despues mostarla en la pagina
-  // a cada empresa que muestres debes anidarle un div vacio con un id con el id de la empresa como valor para que despues le podamos insertar las importaciones
+  listaDeEmpresas.push(nuevaEmpresa);
+
+  const optionElement = document.createElement('option');
+  optionElement.innerHTML = `<option value="${nuevaEmpresa}">${nuevaEmpresa.nombre}</option>`;
+
+  empresasSelectElement.appendChild(optionElement);
+  nombreEmpresa.value = '';
+  rut.value = '';
+  rubro.value = '';
+  tamano.value = '';
+
 });
 
 formularioImportacion.addEventListener('submit', (e) => {
@@ -63,7 +73,7 @@ formularioProducto.addEventListener('submit', (e) => {
     <br></br>
     `;
 
-  productos.appendChild(checkboxDiv);
+  productosDiv.appendChild(checkboxDiv);
 
   // limpia formulario
   nombreProducto.value = '';
@@ -232,64 +242,67 @@ class Producto {
     return this.#cantidad * this.#precio;
   }
 }
+// Start
+// if (listaDeEmpresas.length === 0) {
+//   empresasSelectElement.innerHTML = <option value="">--No hay empresas registradas--</option>
+// } else {
 
-// funciones utilitarias
+// }
 
-const aduana = new Aduana();
-const empresa1 = new Empresa(
-  12345678,
-  'AgroHolman Limitada',
-  '75.123.123-0',
-  'agrícola',
-  'pequeño'
-);
-const empresa2 = new Empresa(
-  12341234,
-  'Calerita Dynamics Inc',
-  '76.000.000-0',
-  'tecnología',
-  'mediano'
-);
+// const aduana = new Aduana();
+// const empresa1 = new Empresa(
+//   12345678,
+//   'AgroHolman Limitada',
+//   '75.123.123-0',
+//   'agrícola',
+//   'pequeño'
+// );
+// const empresa2 = new Empresa(
+//   12341234,
+//   'Calerita Dynamics Inc',
+//   '76.000.000-0',
+//   'tecnología',
+//   'mediano'
+// );
 
-aduana.registrarEmpresa(empresa1);
-aduana.registrarEmpresa(empresa2);
+// aduana.registrarEmpresa(empresa1);
+// aduana.registrarEmpresa(empresa2);
 
-const producto1 = new Producto('Maceta VCG 10', 50000, 40);
-const producto2 = new Producto('Maceta VCG 15', 20000, 70);
-const producto3 = new Producto('Arduino Uno', 1000, 10000);
+// const producto1 = new Producto('Maceta VCG 10', 50000, 40);
+// const producto2 = new Producto('Maceta VCG 15', 20000, 70);
+// const producto3 = new Producto('Arduino Uno', 1000, 10000);
 
-const importacion1 = new Importacion([producto1, producto2]);
+// const importacion1 = new Importacion([producto1, producto2]);
 
-const importacion2 = new Importacion();
-importacion2.agregarProducto(producto3);
+// const importacion2 = new Importacion();
+// importacion2.agregarProducto(producto3);
 
-empresa1.agregarImportacion(importacion1);
-empresa2.agregarImportacion(importacion2);
+// empresa1.agregarImportacion(importacion1);
+// empresa2.agregarImportacion(importacion2);
 
-aduana.empresas.forEach((empresa) => {
-  console.log(
-    `La empresa ${empresa.nombre}, rut ${empresa.rut}, id de registro ${
-      empresa.idRegistro
-    }, ha realizado ${empresa.obtenerCantidadDeImportaciones()} importaciones, por un valor total de $${empresa.obtenerValorTotalDeImportaciones()}.`
-  );
-});
+// aduana.empresas.forEach((empresa) => {
+//   console.log(
+//     `La empresa ${empresa.nombre}, rut ${empresa.rut}, id de registro ${empresa.idRegistro
+//     }, ha realizado ${empresa.obtenerCantidadDeImportaciones()} importaciones, por un valor total de $${empresa.obtenerValorTotalDeImportaciones()}.`
+//   );
+// });
 
-console.log(
-  'Empresas clasificadas por id de registro:\n',
-  aduana.clasificarEmpresas('idRegistro')
-);
+// console.log(
+//   'Empresas clasificadas por id de registro:\n',
+//   aduana.clasificarEmpresas('idRegistro')
+// );
 
-console.log(
-  'Empresas clasificadas por nombre:\n',
-  aduana.clasificarEmpresas('nombre')
-);
+// console.log(
+//   'Empresas clasificadas por nombre:\n',
+//   aduana.clasificarEmpresas('nombre')
+// );
 
-console.log(
-  'Empresas clasificadas por rut:\n',
-  aduana.clasificarEmpresas('rut')
-);
+// console.log(
+//   'Empresas clasificadas por rut:\n',
+//   aduana.clasificarEmpresas('rut')
+// );
 
-console.log(
-  'Registro de importaciones por empresa: ',
-  aduana.obtenerImportacionesPorEmpresa()
-);
+// console.log(
+//   'Registro de importaciones por empresa: ',
+//   aduana.obtenerImportacionesPorEmpresa()
+// );
